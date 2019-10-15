@@ -1,13 +1,24 @@
 package com.appcoder.springreadyapp;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 
 @SpringBootApplication
-public class SpringReadyAppApplication {
+@Configuration
+public class SpringReadyAppApplication extends SpringBootServletInitializer {
 
-    public static void main(String[] args) {
+    public static void main(String... args) {
         SpringApplication.run(SpringReadyAppApplication.class, args);
     }
 
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+        return builder.sources(SpringReadyAppApplication.class);
+    }
 }

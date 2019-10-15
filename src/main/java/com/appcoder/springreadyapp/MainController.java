@@ -24,8 +24,8 @@ public class MainController {
 
        String ipInfo=getIpInfo();
 
-        response+="Server Name :"+serverName+"\n";
-        response+="Ip Info :"+ipInfo;
+        response+="Server Name : "+serverName+"\n";
+        response+=" Ip Info :"+ipInfo;
 
         return response;
     }
