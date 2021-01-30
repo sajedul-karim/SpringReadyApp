@@ -11,14 +11,10 @@ import org.springframework.context.annotation.PropertySource;
 
 @SpringBootApplication
 @Configuration
-public class SpringReadyAppApplication extends SpringBootServletInitializer {
+public class SpringReadyAppApplication {
 
     public static void main(String... args) {
         SpringApplication.run(SpringReadyAppApplication.class, args);
     }
 
-    @Override
-    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-        return builder.sources(SpringReadyAppApplication.class);
-    }
 }

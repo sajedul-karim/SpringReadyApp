@@ -1,5 +1,6 @@
 package com.appcoder.springreadyapp;
 
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
@@ -13,6 +14,7 @@ import java.net.UnknownHostException;
 import java.util.Date;
 
 @RestController
+@Api(tags = {"main controller"})
 public class MainController {
 
     @Autowired
