@@ -5,16 +5,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Date;
 
 @RestController
-@Api(tags = {"main controller"})
+@Api(tags = {"MainController"})
 public class MainController {
 
     @Autowired
@@ -33,6 +32,17 @@ public class MainController {
         return new ResponseEntity<>(
                 responseObject,
                 HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/basicPost")
+    public @ResponseBody
+    ResponseEntity<BasicResponse> login(@RequestBody BasicRequest request)  {
+        String response = "Your Name :"+request.getYourName()+" , Your Age :"+request.getYourAge();
+
+        BasicResponse baseResponseObject = new BasicResponse(response, new Date().toString());
+
+        return new ResponseEntity<>(baseResponseObject, HttpStatus.OK);
+
     }
 
     private String getIpInfo(){
