@@ -1,9 +1,10 @@
 package com.appcoder.springreadyapp.controller;
 
 import com.appcoder.springreadyapp.request.RedisCreateRequest;
-import com.appcoder.springreadyapp.services.RedisCacheRepository;
+import com.appcoder.springreadyapp.repository.RedisCacheRepository;
+import com.appcoder.springreadyapp.request.TransactionRequest;
+import com.appcoder.springreadyapp.services.RedisTestService;
 import io.swagger.annotations.Api;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,8 +17,24 @@ import javax.servlet.http.HttpServletRequest;
 @Api(tags = {"RedisTestController"})
 public class RedisTestController {
 
-    @Autowired
+    private RedisTestService redisTestService;
     private RedisCacheRepository redisCacheRepository;
+
+    public RedisTestController(RedisTestService redisTestService, RedisCacheRepository redisCacheRepository) {
+        this.redisTestService = redisTestService;
+        this.redisCacheRepository = redisCacheRepository;
+    }
+
+    @PostMapping(value = "/createTransaction")
+    public ResponseEntity<String> createTransaction(HttpServletRequest requestHeader, @RequestBody TransactionRequest request) throws RuntimeException {
+
+        if(redisTestService.doTransaction(request)){
+            return new ResponseEntity<>("Transaction done", HttpStatus.OK);
+
+        }else{
+            return new ResponseEntity<>("Transaction failed, possible cause key already acquired", HttpStatus.OK);
+        }
+    }
 
     @PostMapping(value = "/setKey")
     public ResponseEntity<String> setKey(HttpServletRequest requestHeader, @RequestBody RedisCreateRequest request) throws Exception {

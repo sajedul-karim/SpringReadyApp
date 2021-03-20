@@ -1,4 +1,4 @@
-package com.appcoder.springreadyapp.services;
+package com.appcoder.springreadyapp.repository;
 
 public interface RedisCacheRepository {
     public boolean isKeyExists(String key);

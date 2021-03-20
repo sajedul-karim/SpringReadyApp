@@ -1,4 +1,4 @@
-package com.appcoder.springreadyapp.services;
+package com.appcoder.springreadyapp.repository;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
