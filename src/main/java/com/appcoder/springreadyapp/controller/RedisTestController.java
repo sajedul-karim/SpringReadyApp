@@ -25,10 +25,21 @@ public class RedisTestController {
         this.redisCacheRepository = redisCacheRepository;
     }
 
+    @PostMapping(value = "/createTransactionNormal")
+    public ResponseEntity<String> createTransactionNormal(HttpServletRequest requestHeader, @RequestBody TransactionRequest request) throws RuntimeException {
+
+        if(redisTestService.doTransactionNormal(request)){
+            return new ResponseEntity<>("Transaction done", HttpStatus.OK);
+
+        }else{
+            return new ResponseEntity<>("Transaction failed, possible cause key already acquired", HttpStatus.OK);
+        }
+    }
+
     @PostMapping(value = "/createTransaction")
     public ResponseEntity<String> createTransaction(HttpServletRequest requestHeader, @RequestBody TransactionRequest request) throws RuntimeException {
 
-        if(redisTestService.doTransaction(request)){
+        if(redisTestService.doTransactionLock(request)){
             return new ResponseEntity<>("Transaction done", HttpStatus.OK);
 
         }else{

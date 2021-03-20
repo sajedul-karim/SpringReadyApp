@@ -29,17 +29,79 @@ public class RedisCacheRepositoryImpl implements RedisCacheRepository {
 
 
     @Override
-    public boolean isKeyExists(String key) {
+    public boolean isTransactionRunningForSender(String key) {
+        Jedis jedis = null;
+        try {
+            jedis = getRedis();
+            key = KEY_PRE + key;
+            String value = fetchLockValue(key);
+            if (jedis.get(key) != null) {
+                log.info("Transaction Running for : " + key);
+                return true;
+            }else{
+                log.info("Transaction not Running for : " + key);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (jedis != null) {
+                jedis.close();
+            }
+        }
         return false;
+    }
+
+
+    @Override
+    public void makeSenderBusyForTransactionNormal(String key) {
+        Jedis jedis = null;
+        try {
+            jedis = getRedis();
+            key = KEY_PRE + key;
+            String value = fetchLockValue(key);
+            if (SET_SUCCESS.equals(jedis.set(key, value))) {
+                log.info("Sender made busy done for key : " + key + ",value : " + value);
+            }else{
+                log.info("Sender made busy failed for key : " + key + ",value : " + value);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (jedis != null) {
+                jedis.close();
+            }
+        }
+    }
+
+    @Override
+    public void makeSenderFreeForTransactionNormal(String key) {
+        Long RELEASE_SUCCESS = 1L;
+        Jedis jedis = null;
+        try {
+            jedis = getRedis();
+            key = KEY_PRE + key;
+            String value = fetchLockValue(key);
+            String command = "if redis.call('get',KEYS[1])==ARGV[1] then return redis.call('del',KEYS[1]) else return 0 end";
+            if (RELEASE_SUCCESS.equals(jedis.eval(command, Collections.singletonList(key), Collections.singletonList(value)))) {
+                log.info("Sender release done : " + key + ",value : " + value);
+            }else{
+                log.error("Sender release failed, possible cause key not acquired YET : " + key);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (jedis != null) {
+                jedis.close();
+            }
+        }
     }
 
     @Override
     public boolean acquireLock(String key) {
         Jedis jedis = null;
         try {
-            jedisConnection = (JedisConnection) jedisConnectionFactory.getConnection();
-            jedis = jedisConnection.getJedis();
-            jedis.select(dbIndex);
+            jedis = getRedis();
             key = KEY_PRE + key;
             String value = fetchLockValue(key);
             if (SET_SUCCESS.equals(jedis.set(key, value, "NX", "EX", lockExpireTimeSeconds))) {
@@ -63,9 +125,7 @@ public class RedisCacheRepositoryImpl implements RedisCacheRepository {
         Long RELEASE_SUCCESS = 1L;
         Jedis jedis = null;
         try {
-            jedisConnection = (JedisConnection) jedisConnectionFactory.getConnection();
-            jedis = jedisConnection.getJedis();
-            jedis.select(dbIndex);
+            jedis = getRedis();
             key = KEY_PRE + key;
             String value = fetchLockValue(key);
             String command = "if redis.call('get',KEYS[1])==ARGV[1] then return redis.call('del',KEYS[1]) else return 0 end";
@@ -86,7 +146,15 @@ public class RedisCacheRepositoryImpl implements RedisCacheRepository {
         return false;
     }
 
+
     private String fetchLockValue(String key) {
         return "VALUE_"+key;
+    }
+
+    private Jedis getRedis(){
+        jedisConnection = (JedisConnection) jedisConnectionFactory.getConnection();
+        Jedis jedis = jedisConnection.getJedis();
+        jedis.select(dbIndex);
+        return jedis;
     }
 }

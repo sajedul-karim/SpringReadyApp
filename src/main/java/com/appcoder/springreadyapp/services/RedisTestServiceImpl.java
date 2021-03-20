@@ -16,7 +16,28 @@ public class RedisTestServiceImpl implements RedisTestService{
     }
 
     @Override
-    public boolean doTransaction(TransactionRequest transactionRequest) throws RuntimeException {
+    public boolean doTransactionNormal(TransactionRequest transactionRequest) throws RuntimeException {
+
+        String key = "TRANSACTION-"+transactionRequest.getSenderWalletId().toString();
+
+        if(cacheRepository.isTransactionRunningForSender(key)){
+            log.error("Transaction Failed, Transaction is going on for sender : "+transactionRequest.getSenderWalletId());
+            throw new RuntimeException("Transaction Failed, Transaction is going on for sender : "+transactionRequest.getSenderWalletId());
+        }
+
+        fetchSomeValueFromDb();
+
+        cacheRepository.makeSenderBusyForTransactionNormal(key);
+
+        saveSomeDataIntoDb();
+        log.info("Transaction Done");
+        cacheRepository.makeSenderFreeForTransactionNormal(key);
+        return true;
+
+    }
+
+    @Override
+    public boolean doTransactionLock(TransactionRequest transactionRequest) throws RuntimeException {
 
         String key = "TRANSACTION-"+transactionRequest.getSenderWalletId().toString();
 
