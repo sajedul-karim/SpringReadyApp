@@ -15,9 +15,9 @@ Response will be:
 Replace Your host/IP and port
 http://localhost:8081/springreadyapp/swagger-ui.html#/
 
-#Redis Lock
+# Redis Lock
 Added code for redis lock for distributed system as example.
-# Endpoints : 
 
-springreadyapp/createTransactionNormal
-springreadyapp/createTransactionLock
+# Endpoints :
+*  springreadyapp/createTransactionNormal
+*  springreadyapp/createTransactionLock
