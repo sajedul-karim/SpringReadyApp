@@ -10,3 +10,6 @@ Response will be:
   "ipInfo": "Your current IP address : SKM-RND-0288/192.168.3.93\nYour current Hostname : SKM-RND-0288",
   "dateTime": "Wed Oct 16 14:50:35 BDT 2019"
 }
+
+Swagger Home:
+http://localhost:8081/springreadyapp/swagger-ui.html#/
