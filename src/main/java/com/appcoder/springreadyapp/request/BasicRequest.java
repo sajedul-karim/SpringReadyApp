@@ -1,4 +1,4 @@
-package com.appcoder.springreadyapp;
+package com.appcoder.springreadyapp.request;
 
 public class BasicRequest {
     private String yourName;

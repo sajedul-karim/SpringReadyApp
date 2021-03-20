@@ -1,4 +1,4 @@
-package com.appcoder.springreadyapp;
+package com.appcoder.springreadyapp.response;
 
 
 public class BasicResponse {

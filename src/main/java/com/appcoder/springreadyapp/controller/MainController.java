@@ -1,5 +1,8 @@
-package com.appcoder.springreadyapp;
+package com.appcoder.springreadyapp.controller;
 
+import com.appcoder.springreadyapp.request.BasicRequest;
+import com.appcoder.springreadyapp.response.BasicResponse;
+import com.appcoder.springreadyapp.response.ResponseObject;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -7,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Date;
