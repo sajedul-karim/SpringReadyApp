@@ -36,8 +36,8 @@ public class RedisTestController {
         }
     }
 
-    @PostMapping(value = "/createTransaction")
-    public ResponseEntity<String> createTransaction(HttpServletRequest requestHeader, @RequestBody TransactionRequest request) throws RuntimeException {
+    @PostMapping(value = "/createTransactionLock")
+    public ResponseEntity<String> createTransactionLock(HttpServletRequest requestHeader, @RequestBody TransactionRequest request) throws RuntimeException {
 
         if(redisTestService.doTransactionLock(request)){
             return new ResponseEntity<>("Transaction done", HttpStatus.OK);
