@@ -36,11 +36,11 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public boolean deleteCustomer(Customer request) {
-        if(request.getId() == null || request.getId() == 0){
+        if (request.getId() == null || request.getId() == 0) {
             log.error("Invalid request");
             return false;
         }
-        if(!customerRepository.existsById(request.getId())){
+        if (!customerRepository.existsById(request.getId())) {
             log.error("Customer not found based on provided data");
             return false;
         }

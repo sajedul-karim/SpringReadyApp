@@ -20,20 +20,15 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
-    @PostMapping(value = "/createCustomer")
-    public ResponseEntity<String> createCustomer(HttpServletRequest requestHeader, @RequestBody Customer request) throws RuntimeException {
+    @PostMapping(value = "/saveCustomer")
+    public ResponseEntity<String> saveCustomer(HttpServletRequest requestHeader, @RequestBody Customer request) throws RuntimeException {
 
-        if(customerService.saveCustomer(request)){
+        if (customerService.saveCustomer(request)) {
             return new ResponseEntity<>("Customer Save/update Done", HttpStatus.OK);
 
-        }else{
+        } else {
             return new ResponseEntity<>("Customer Save/update failed", HttpStatus.OK);
         }
-    }
-
-    @GetMapping(value = "/fetchCustomerByMobileNumber")
-    public ResponseEntity<List<Customer>> fetchCustomerByMobileNumber(@RequestParam String mobileNumber) throws RuntimeException {
-        return new ResponseEntity<>(customerService.findCustomerByMobileNumber(mobileNumber), HttpStatus.OK);
     }
 
     @GetMapping(value = "/fetchAllCustomer")
@@ -41,13 +36,19 @@ public class CustomerController {
         return new ResponseEntity<>(customerService.fetchAllCustomer(), HttpStatus.OK);
     }
 
+    @GetMapping(value = "/fetchCustomerByMobileNumber")
+    public ResponseEntity<List<Customer>> fetchCustomerByMobileNumber(@RequestParam String mobileNumber) throws RuntimeException {
+        return new ResponseEntity<>(customerService.findCustomerByMobileNumber(mobileNumber), HttpStatus.OK);
+    }
+
+
     @PostMapping(value = "/deleteCustomer")
     public ResponseEntity<String> deleteCustomer(HttpServletRequest requestHeader, @RequestBody Customer request) throws RuntimeException {
 
-        if(customerService.deleteCustomer(request)){
+        if (customerService.deleteCustomer(request)) {
             return new ResponseEntity<>("Customer delete Done", HttpStatus.OK);
 
-        }else{
+        } else {
             return new ResponseEntity<>("Customer delete failed", HttpStatus.OK);
         }
     }
