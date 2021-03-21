@@ -17,13 +17,13 @@ public class RedisCacheRepositoryImpl implements RedisCacheRepository {
     private static String KEY_PRE = "REDIS_LOCK_";
     private Integer dbIndex = 15;
 
-    private Integer lockExpireTimeSeconds = 120*1000;
+    private Integer lockExpireTimeSeconds = 120 * 1000;
 
     JedisConnectionFactory jedisConnectionFactory;
     JedisConnection jedisConnection;
 
 
-    public RedisCacheRepositoryImpl(JedisConnectionFactory jedisConnectionFactory){
+    public RedisCacheRepositoryImpl(JedisConnectionFactory jedisConnectionFactory) {
         this.jedisConnectionFactory = jedisConnectionFactory;
     }
 
@@ -38,7 +38,7 @@ public class RedisCacheRepositoryImpl implements RedisCacheRepository {
             if (jedis.get(key) != null) {
                 log.info("Transaction Running for : " + key);
                 return true;
-            }else{
+            } else {
                 log.info("Transaction not Running for : " + key);
             }
         } catch (Exception e) {
@@ -61,7 +61,7 @@ public class RedisCacheRepositoryImpl implements RedisCacheRepository {
             String value = fetchLockValue(key);
             if (SET_SUCCESS.equals(jedis.set(key, value))) {
                 log.info("Sender made busy done for key : " + key + ",value : " + value);
-            }else{
+            } else {
                 log.info("Sender made busy failed for key : " + key + ",value : " + value);
             }
         } catch (Exception e) {
@@ -84,7 +84,7 @@ public class RedisCacheRepositoryImpl implements RedisCacheRepository {
             String command = "if redis.call('get',KEYS[1])==ARGV[1] then return redis.call('del',KEYS[1]) else return 0 end";
             if (RELEASE_SUCCESS.equals(jedis.eval(command, Collections.singletonList(key), Collections.singletonList(value)))) {
                 log.info("Sender release done : " + key + ",value : " + value);
-            }else{
+            } else {
                 log.error("Sender release failed, possible cause key not acquired YET : " + key);
             }
 
@@ -107,7 +107,7 @@ public class RedisCacheRepositoryImpl implements RedisCacheRepository {
             if (SET_SUCCESS.equals(jedis.set(key, value, "NX", "EX", lockExpireTimeSeconds))) {
                 log.info("Reids Lock acquire done key : " + key + ",value : " + value);
                 return true;
-            }else{
+            } else {
                 log.error("Reids Lock acquire failed key, possible cause key already acquired : " + key + ",value : " + value);
             }
         } catch (Exception e) {
@@ -132,7 +132,7 @@ public class RedisCacheRepositoryImpl implements RedisCacheRepository {
             if (RELEASE_SUCCESS.equals(jedis.eval(command, Collections.singletonList(key), Collections.singletonList(value)))) {
                 log.info("Reids Lock key release done : " + key + ",value : " + value);
                 return true;
-            }else{
+            } else {
                 log.error("Reids Lock key release failed, possible cause key not acquired YET : " + key);
             }
 
@@ -148,10 +148,10 @@ public class RedisCacheRepositoryImpl implements RedisCacheRepository {
 
 
     private String fetchLockValue(String key) {
-        return "VALUE_"+key;
+        return "VALUE_" + key;
     }
 
-    private Jedis getRedis(){
+    private Jedis getRedis() {
         jedisConnection = (JedisConnection) jedisConnectionFactory.getConnection();
         Jedis jedis = jedisConnection.getJedis();
         jedis.select(dbIndex);

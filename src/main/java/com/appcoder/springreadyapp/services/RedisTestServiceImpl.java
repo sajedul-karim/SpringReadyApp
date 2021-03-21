@@ -7,7 +7,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
 
 @Service
-public class RedisTestServiceImpl implements RedisTestService{
+public class RedisTestServiceImpl implements RedisTestService {
     private static Log log = LogFactory.getLog(RedisTestService.class);
     private RedisCacheRepository cacheRepository;
 
@@ -18,11 +18,11 @@ public class RedisTestServiceImpl implements RedisTestService{
     @Override
     public boolean doTransactionNormal(TransactionRequest transactionRequest) throws RuntimeException {
 
-        String key = "TRANSACTION-"+transactionRequest.getSenderWalletId().toString();
+        String key = "TRANSACTION-" + transactionRequest.getSenderWalletId().toString();
 
-        if(cacheRepository.isTransactionRunningForSender(key)){
-            log.error("Transaction Failed, Transaction is going on for sender : "+transactionRequest.getSenderWalletId());
-            throw new RuntimeException("Transaction Failed, Transaction is going on for sender : "+transactionRequest.getSenderWalletId());
+        if (cacheRepository.isTransactionRunningForSender(key)) {
+            log.error("Transaction Failed, Transaction is going on for sender : " + transactionRequest.getSenderWalletId());
+            throw new RuntimeException("Transaction Failed, Transaction is going on for sender : " + transactionRequest.getSenderWalletId());
         }
 
         fetchSomeValueFromDb();
@@ -39,36 +39,36 @@ public class RedisTestServiceImpl implements RedisTestService{
     @Override
     public boolean doTransactionLock(TransactionRequest transactionRequest) throws RuntimeException {
 
-        String key = "TRANSACTION-"+transactionRequest.getSenderWalletId().toString();
+        String key = "TRANSACTION-" + transactionRequest.getSenderWalletId().toString();
 
-        if(cacheRepository.acquireLock(key)){
+        if (cacheRepository.acquireLock(key)) {
             fetchSomeValueFromDb();
             saveSomeDataIntoDb();
             log.info("Transaction Done");
             cacheRepository.releaseLock(key);
             return true;
-        }else {
-            log.error("Transaction Failed, Transaction is going on for sender : "+transactionRequest.getSenderWalletId());
-            throw new RuntimeException("Transaction Failed, Transaction is going on for sender : "+transactionRequest.getSenderWalletId());
+        } else {
+            log.error("Transaction Failed, Transaction is going on for sender : " + transactionRequest.getSenderWalletId());
+            throw new RuntimeException("Transaction Failed, Transaction is going on for sender : " + transactionRequest.getSenderWalletId());
         }
     }
 
-    public void fetchSomeValueFromDb(){
+    public void fetchSomeValueFromDb() {
         log.info("Fetching some data from database.");
-        try{
+        try {
             Thread.sleep(5000);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         log.info("Data fetch done from database.");
     }
 
-    public void saveSomeDataIntoDb(){
+    public void saveSomeDataIntoDb() {
         log.info("Saving data into database.");
 
-        try{
+        try {
             Thread.sleep(5000);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         log.info("Saving data into database done.");
