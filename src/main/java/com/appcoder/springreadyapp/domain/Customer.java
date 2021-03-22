@@ -10,6 +10,9 @@ public class Customer {
     private String firstName;
     private String lastName;
     private String mobileNumber;
+    private String presentAddress;
+    private String permanentAddress;
+    private String gender;
 
     @Id
     @Column(name = "id")
@@ -51,4 +54,34 @@ public class Customer {
     public void setMobileNumber(String mobileNumber) {
         this.mobileNumber = mobileNumber;
     }
+
+    @Basic
+    @Column(name = "presentAddress")
+    public String getPermanentAddress() {
+        return presentAddress;
+    }
+
+    public void setPermanentAddress(String presentAddress) {
+        this.presentAddress = presentAddress;
+    }
+
+    @Basic
+    @Column(name = "permanentAddress")
+    public String getPresentAddress() {
+        return permanentAddress;
+    }
+
+    public void setPresentAddress(String permanentAddress) {
+        this.permanentAddress = permanentAddress;
+    }
+    @Basic
+    @Column(name = "gender")
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
 }

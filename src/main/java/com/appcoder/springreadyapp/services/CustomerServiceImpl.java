@@ -1,11 +1,14 @@
 package com.appcoder.springreadyapp.services;
 
 import com.appcoder.springreadyapp.domain.Customer;
+import com.appcoder.springreadyapp.domain.ICustomer;
 import com.appcoder.springreadyapp.repository.CustomerRepository;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Service
@@ -14,6 +17,9 @@ public class CustomerServiceImpl implements CustomerService {
     private static Log log = LogFactory.getLog(CustomerServiceImpl.class);
 
     private CustomerRepository customerRepository;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     public CustomerServiceImpl(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
@@ -57,4 +63,15 @@ public class CustomerServiceImpl implements CustomerService {
     public List<Customer> findCustomerByMobileNumber(String mobileNumber) {
         return customerRepository.findAllByMobileNumber(mobileNumber);
     }
+
+    @Override
+    public List<ICustomer> findCustomerByFirstNameProjection(String firstName) {
+        return customerRepository.findAllByFirstName(firstName);
+    }
+
+    @Override
+    public List<ICustomer> findCustomerByFirstNameCustomQuery(String firstName) {
+        return null;
+    }
+
 }

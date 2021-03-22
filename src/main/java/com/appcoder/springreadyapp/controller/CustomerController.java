@@ -1,6 +1,7 @@
 package com.appcoder.springreadyapp.controller;
 
 import com.appcoder.springreadyapp.domain.Customer;
+import com.appcoder.springreadyapp.domain.ICustomer;
 import com.appcoder.springreadyapp.services.CustomerService;
 import io.swagger.annotations.Api;
 import org.springframework.http.HttpStatus;
@@ -41,6 +42,16 @@ public class CustomerController {
         return new ResponseEntity<>(customerService.findCustomerByMobileNumber(mobileNumber), HttpStatus.OK);
     }
 
+    @GetMapping(value = "/fetchCustomerByFirstNameProjection")
+    public ResponseEntity<List<ICustomer>> fetchCustomerByFirstNameProjection(@RequestParam String firstName) throws RuntimeException {
+        return new ResponseEntity<>(customerService.findCustomerByFirstNameProjection(firstName), HttpStatus.OK);
+    }
+
+
+    @GetMapping(value = "/fetchCustomerByFirstNameCustomQuery")
+    public ResponseEntity<List<ICustomer>> fetchCustomerByFirstNameCustomQuery(@RequestParam String firstName) throws RuntimeException {
+        return new ResponseEntity<>(customerService.findCustomerByFirstNameCustomQuery(firstName), HttpStatus.OK);
+    }
 
     @PostMapping(value = "/deleteCustomer")
     public ResponseEntity<String> deleteCustomer(HttpServletRequest requestHeader, @RequestBody Customer request) throws RuntimeException {
