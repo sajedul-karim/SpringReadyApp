@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -70,8 +72,24 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public List<ICustomer> findCustomerByFirstNameCustomQuery(String firstName) {
-        return null;
+    public List<Customer> findCustomerByFirstNameCustomQuery(String firstName) {
+        String queryStr = "select id,first_name, last_name, mobile_number from customer where first_name = ?1";
+        try {
+            Query query = entityManager.createNativeQuery(queryStr);
+            query.setParameter(1, firstName);
+
+            List<Object[]> objectList = query.getResultList();
+
+            List<Customer> result = new ArrayList<>();
+            for (Object[] row : objectList) {
+                result.add(new Customer(row));
+            }
+            return result;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
     }
 
 }

@@ -14,5 +14,5 @@ public interface CustomerService {
 
     public List<Customer> findCustomerByMobileNumber(String mobileNumber);
     public List<ICustomer> findCustomerByFirstNameProjection(String firstName);
-    public List<ICustomer> findCustomerByFirstNameCustomQuery(String firstName);
+    public List<Customer> findCustomerByFirstNameCustomQuery(String firstName);
 }

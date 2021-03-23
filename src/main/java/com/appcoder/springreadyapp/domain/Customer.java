@@ -1,6 +1,8 @@
 package com.appcoder.springreadyapp.domain;
 
 import javax.persistence.*;
+import java.math.BigInteger;
+import java.util.List;
 
 @Entity
 //@Table(name = "CUSTOMER", schema = "testdb")
@@ -13,6 +15,17 @@ public class Customer {
     private String presentAddress;
     private String permanentAddress;
     private String gender;
+
+    public Customer() {
+    }
+
+    public Customer(Object[] col) {
+        this.id = (col[0] != null)? ((BigInteger) col[0]).longValue() :0;
+        this.firstName = (String) col[1];
+        this.lastName = (String) col[2];
+        this.mobileNumber = (String) col[3];
+
+    }
 
     @Id
     @Column(name = "id")

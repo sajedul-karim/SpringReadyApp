@@ -49,7 +49,7 @@ public class CustomerController {
 
 
     @GetMapping(value = "/fetchCustomerByFirstNameCustomQuery")
-    public ResponseEntity<List<ICustomer>> fetchCustomerByFirstNameCustomQuery(@RequestParam String firstName) throws RuntimeException {
+    public ResponseEntity<List<Customer>> fetchCustomerByFirstNameCustomQuery(@RequestParam String firstName) throws RuntimeException {
         return new ResponseEntity<>(customerService.findCustomerByFirstNameCustomQuery(firstName), HttpStatus.OK);
     }
 
