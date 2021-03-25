@@ -5,6 +5,9 @@ import com.appcoder.springreadyapp.domain.ICustomer;
 import com.appcoder.springreadyapp.repository.CustomerRepository;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -28,13 +31,16 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public boolean saveCustomer(Customer request) {
+    public boolean saveUpdateCustomer(Customer request) {
         Customer customer;
         if (request.getId() == null || request.getId() == 0) {
             customer = new Customer();
             customer.setFirstName(request.getFirstName());
             customer.setLastName(request.getLastName());
             customer.setMobileNumber(request.getMobileNumber());
+            customer.setGender(request.getGender());
+            customer.setPermanentAddress(request.getPermanentAddress());
+            customer.setPresentAddress(request.getPresentAddress());
         } else {
             customer = request;
         }
@@ -90,6 +96,12 @@ public class CustomerServiceImpl implements CustomerService {
             e.printStackTrace();
             throw e;
         }
+    }
+
+    @Override
+    public Page<Customer> findCustomerByLastNamePagination(String lastName, int pageId, int pageSize) {
+        Pageable pageable = PageRequest.of(pageId, pageSize);
+        return customerRepository.findAllByLastName(lastName,pageable);
     }
 
 }

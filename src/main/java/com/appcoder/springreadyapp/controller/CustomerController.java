@@ -4,6 +4,7 @@ import com.appcoder.springreadyapp.domain.Customer;
 import com.appcoder.springreadyapp.domain.ICustomer;
 import com.appcoder.springreadyapp.services.CustomerService;
 import io.swagger.annotations.Api;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +25,7 @@ public class CustomerController {
     @PostMapping(value = "/saveCustomer")
     public ResponseEntity<String> saveCustomer(HttpServletRequest requestHeader, @RequestBody Customer request) throws RuntimeException {
 
-        if (customerService.saveCustomer(request)) {
+        if (customerService.saveUpdateCustomer(request)) {
             return new ResponseEntity<>("Customer Save/update Done", HttpStatus.OK);
 
         } else {
@@ -51,6 +52,11 @@ public class CustomerController {
     @GetMapping(value = "/fetchCustomerByFirstNameCustomQuery")
     public ResponseEntity<List<Customer>> fetchCustomerByFirstNameCustomQuery(@RequestParam String firstName) throws RuntimeException {
         return new ResponseEntity<>(customerService.findCustomerByFirstNameCustomQuery(firstName), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/fetchCustomerByLastNamePagination")
+    public ResponseEntity<Page<Customer>> fetchCustomerByLastNamePagination(@RequestParam String lastName, int pageId, int pageSize) throws RuntimeException {
+        return new ResponseEntity<>(customerService.findCustomerByLastNamePagination(lastName, pageId, pageSize), HttpStatus.OK);
     }
 
     @PostMapping(value = "/deleteCustomer")

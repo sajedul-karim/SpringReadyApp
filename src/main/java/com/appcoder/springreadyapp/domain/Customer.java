@@ -2,7 +2,6 @@ package com.appcoder.springreadyapp.domain;
 
 import javax.persistence.*;
 import java.math.BigInteger;
-import java.util.List;
 
 @Entity
 //@Table(name = "CUSTOMER", schema = "testdb")
