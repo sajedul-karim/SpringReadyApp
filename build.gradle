@@ -2,19 +2,35 @@ plugins {
     id 'org.springframework.boot' version '2.1.9.RELEASE'
     id 'io.spring.dependency-management' version '1.0.8.RELEASE'
     id 'java'
+    id "com.palantir.docker" version "0.22.1"
+    id "com.palantir.docker-run" version "0.22.1"
 }
 
+version '0.6'
+
 group = 'com.appcoder'
-version = ''
 sourceCompatibility = '1.8'
-apply plugin: 'war'
 
 repositories {
     mavenCentral()
 }
 
-war{
-    archiveBaseName='spring-ready-app'
+
+docker {
+    name "${project.name}:${project.version}"
+//    dockerfile file('src/docker/Dockerfile')
+    dockerfile file('Dockerfile')
+    copySpec.from(jar).rename(".*","springreadyapp.jar")
+    buildArgs(['JAR_FILE': "springreadyapp.jar"])
+    files 'springreadyapp.jar'
+    tag 'DockerHub', "mesuk08/springreadyapp:${project.version}"
+}
+
+dockerRun {
+    name "${project.name}"
+    image "${project.name}:${project.version}"
+    ports '8081:8081'
+    clean true
 }
 
 dependencies {

@@ -1,4 +1,5 @@
-From tomcat:8.0.51-jre8-alpine
-RUN rm -rf /usr/local/tomcat/webapps/*
-COPY ./build/libs/springreadyapp.war /usr/local/tomcat/webapps/springreadyapp.war
-CMD ["catalina.sh","run"]
+FROM openjdk:8-jdk-alpine
+ARG JAR_FILE=build/libs/*.jar
+COPY ${JAR_FILE} springreadyapp.jar
+
+ENTRYPOINT ["java","-jar","/springreadyapp.jar"]
