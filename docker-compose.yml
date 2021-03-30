@@ -1,0 +1,30 @@
+version: '3'
+services:
+  lb:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+    depends_on:
+      - service1
+      - service2
+      - service3
+  service1:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8181:8080"
+  service2:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8182:8080"
+  service3:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8183:8080"

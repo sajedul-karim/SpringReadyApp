@@ -22,14 +22,13 @@ public class MainController {
     private Environment environment;
 
     @RequestMapping(method = RequestMethod.GET, value="/")
-    public ResponseEntity<ResponseObject> hello(){
+    public ResponseEntity<ResponseObject> hello() throws UnknownHostException {
         ResponseObject responseObject=new ResponseObject();
-        String serverName=environment.getProperty("machineName");
 
-       String ipInfo=getIpInfo();
+        InetAddress ip = InetAddress.getLocalHost();
 
-        responseObject.setServerName(serverName);
-        responseObject.setIpInfo(ipInfo);
+        responseObject.setServerName(ip.getHostName());
+        responseObject.setIpInfo("Your current IP address : " + ip);
         responseObject.setDateTime(new Date().toString());
         return new ResponseEntity<>(
                 responseObject,
@@ -46,29 +45,4 @@ public class MainController {
         return new ResponseEntity<>(baseResponseObject, HttpStatus.OK);
 
     }
-
-    private String getIpInfo(){
-
-        String ipInfo="";
-
-        InetAddress ip;
-        String hostname;
-        try {
-            ip = InetAddress.getLocalHost();
-            hostname = ip.getHostName();
-            ipInfo+=("Your current IP address : " + ip)+"\n";
-            ipInfo+=("Your current Hostname : " + hostname);
-
-        } catch (UnknownHostException e) {
-
-            e.printStackTrace();
-
-            ipInfo+=e.getMessage();
-
-        }
-
-        return ipInfo;
-
-    }
-
 }
