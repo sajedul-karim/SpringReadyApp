@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
+@RequestMapping("/customer")
 @Api(tags = {"CustomerController"})
 public class CustomerController {
 

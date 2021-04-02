@@ -20,7 +20,7 @@ docker {
     name "${project.name}:${project.version}"
 //    dockerfile file('src/docker/Dockerfile')
     dockerfile file('Dockerfile')
-    copySpec.from(jar).rename(".*","springreadyapp.jar")
+    copySpec.from(jar).rename(".*", "springreadyapp.jar")
     buildArgs(['JAR_FILE': "springreadyapp.jar"])
     files 'springreadyapp.jar'
     tag 'DockerHub', "mesuk08/springreadyapp:${project.version}"
@@ -41,7 +41,7 @@ dependencies {
     implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
 
     // Dependencies for redis
-    compile ('org.springframework.boot:spring-boot-starter-data-redis') {
+    compile('org.springframework.boot:spring-boot-starter-data-redis') {
         exclude group: 'io.lettuce', module: 'lettuce-core'
     }
     compile 'redis.clients:jedis:2.9.3'
@@ -49,6 +49,11 @@ dependencies {
     // Dependencies for JPA
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     runtimeOnly 'com.h2database:h2'
+
+// Spring security
+    compile 'org.springframework.boot:spring-boot-starter-security'
+    compile 'org.springframework.security:spring-security-test'
+    compile 'io.jsonwebtoken:jjwt:0.9.1'
 
 }
 test {

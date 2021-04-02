@@ -15,6 +15,7 @@ import java.net.UnknownHostException;
 import java.util.Date;
 
 @RestController
+@RequestMapping("/main")
 @Api(tags = {"MainController"})
 public class MainController {
 
