@@ -56,7 +56,7 @@ public class JwtTokenProviderService implements IJwtTokenProviderService {
     }
 
     @Override
-    public Authentication getAuthentication(String token) {
+    public Authentication validateUserAndGetAuthentication(String token) {
         UserDetails userDetails = myUserDetailsService.loadUserByUsername(getUsername(token));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
@@ -67,7 +67,7 @@ public class JwtTokenProviderService implements IJwtTokenProviderService {
     }
 
     @Override
-    public String resolveToken(HttpServletRequest req) {
+    public String parseToken(HttpServletRequest req) {
         String bearerToken = req.getHeader("Authorization");
         if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
             return bearerToken.substring(7);

@@ -8,9 +8,9 @@ import java.util.List;
 
 public interface IJwtTokenProviderService {
     String createToken(String username, List<Role> roles);
-    Authentication getAuthentication(String token);
+    Authentication validateUserAndGetAuthentication(String token);
     String getUsername(String token);
-    String resolveToken(HttpServletRequest req);
+    String parseToken(HttpServletRequest req);
     boolean validateToken(String token);
 
 }
