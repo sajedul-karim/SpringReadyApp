@@ -16,6 +16,8 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service
 public class SecureUserService implements ISecureUserService {
@@ -45,7 +47,7 @@ public class SecureUserService implements ISecureUserService {
 
             LoginResponse loginResponse = new LoginResponse();
             loginResponse.setEmail(user.getEmail());
-            loginResponse.setUserName(user.getUserName());
+            loginResponse.setUserName(user.getUsername());
             loginResponse.setAccessToken(jwtTokenProviderService.createToken(userName, user.getRoles()));
 
             log.info("Login successfully");
@@ -63,7 +65,7 @@ public class SecureUserService implements ISecureUserService {
         }
 
         User user = new User();
-        user.setUserName(request.getUserName());
+        user.setUsername(request.getUserName());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setEmail(request.getEmail());
         user.setRoles(request.getRoles());
@@ -95,9 +97,14 @@ public class SecureUserService implements ISecureUserService {
 
         UserResponse userResponse = new UserResponse();
         userResponse.setEmail(user.getEmail());
-        userResponse.setUserName(user.getUserName());
+        userResponse.setUserName(user.getUsername());
 
         return userResponse;
+    }
+
+    @Override
+    public List<User> getAllUser() {
+        return secureUserRepository.findAll();
     }
 
     @Override

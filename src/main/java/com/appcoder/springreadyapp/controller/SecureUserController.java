@@ -13,6 +13,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 
 @RestController
@@ -58,6 +59,17 @@ public class SecureUserController {
             throw e;
         }
         return new ResponseEntity<>(userName, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "getAllUser")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<List<User>> getAllUser() throws RuntimeException {
+        try {
+            return new ResponseEntity<>(userService.getAllUser(), HttpStatus.OK);
+        } catch (Exception e) {
+            throw e;
+        }
+
     }
 
     @GetMapping(value = "searchUser")
