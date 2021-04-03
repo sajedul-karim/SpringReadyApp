@@ -19,5 +19,6 @@ public interface CustomerRepository extends CrudRepository<Customer, Long> {
     Page<Customer> findAllByLastName(String lastName, Pageable pageable);
 
     void deleteById(Long id);
+    long countAllByFirstName(String firstName);
 
 }

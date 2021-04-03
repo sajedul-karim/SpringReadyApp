@@ -2,6 +2,7 @@ package com.appcoder.springreadyapp.services;
 
 import com.appcoder.springreadyapp.domain.Customer;
 import com.appcoder.springreadyapp.domain.ICustomer;
+import com.appcoder.springreadyapp.exception.CustomerNotFoundException;
 import com.appcoder.springreadyapp.repository.CustomerRepository;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -34,6 +35,10 @@ public class CustomerServiceImpl implements CustomerService {
     public boolean saveUpdateCustomer(Customer request) {
         Customer customer;
         if (request.getId() == null || request.getId() == 0) {
+            if(customerRepository.countAllByFirstName(request.getFirstName())>0){
+                log.error("First name already exists");
+                return false;
+            }
             customer = new Customer();
             customer.setFirstName(request.getFirstName());
             customer.setLastName(request.getLastName());
@@ -70,6 +75,16 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public List<Customer> findCustomerByMobileNumber(String mobileNumber) {
         return customerRepository.findAllByMobileNumber(mobileNumber);
+    }
+
+    @Override
+    public List<Customer> findCustomerByMobileNumberException(String mobileNumber) throws CustomerNotFoundException {
+        List<Customer> customers = customerRepository.findAllByMobileNumber(mobileNumber);
+        if(customers == null || customers.size()==0 ){
+            throw new CustomerNotFoundException("No customers found");
+        }
+
+        return customers;
     }
 
     @Override

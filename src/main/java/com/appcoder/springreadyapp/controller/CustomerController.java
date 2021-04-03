@@ -2,6 +2,7 @@ package com.appcoder.springreadyapp.controller;
 
 import com.appcoder.springreadyapp.domain.Customer;
 import com.appcoder.springreadyapp.domain.ICustomer;
+import com.appcoder.springreadyapp.exception.CustomerNotFoundException;
 import com.appcoder.springreadyapp.services.CustomerService;
 import io.swagger.annotations.Api;
 import org.springframework.data.domain.Page;
@@ -42,6 +43,16 @@ public class CustomerController {
     @GetMapping(value = "/fetchCustomerByMobileNumber")
     public ResponseEntity<List<Customer>> fetchCustomerByMobileNumber(@RequestParam String mobileNumber) throws RuntimeException {
         return new ResponseEntity<>(customerService.findCustomerByMobileNumber(mobileNumber), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/fetchCustomerByMobileNumberException")
+    public ResponseEntity<List<Customer>> fetchCustomerByMobileNumberException(@RequestParam String mobileNumber)  throws CustomerNotFoundException {
+
+        try{
+            return new ResponseEntity<>(customerService.findCustomerByMobileNumberException(mobileNumber), HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping(value = "/fetchCustomerByFirstNameProjection")

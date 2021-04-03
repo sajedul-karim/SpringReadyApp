@@ -35,7 +35,6 @@ dockerRun {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
     implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
     implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
@@ -54,6 +53,11 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-security'
     compile 'org.springframework.security:spring-security-test'
     compile 'io.jsonwebtoken:jjwt:0.9.1'
+
+    // testing dependencies
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testCompile 'org.junit.jupiter:junit-jupiter-engine:5.2.0'
+    testCompile('org.mockito:mockito-junit-jupiter:2.23.0')
 
 }
 test {

@@ -26,6 +26,12 @@ public class Customer {
 
     }
 
+    public Customer(String firstName, String lastName, String mobileNumber) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.mobileNumber = mobileNumber;
+    }
+
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
