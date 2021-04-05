@@ -3,12 +3,9 @@ package com.appcoder.springreadyapp;
 
 import com.appcoder.springreadyapp.controller.CustomerController;
 import com.appcoder.springreadyapp.domain.Customer;
-import com.appcoder.springreadyapp.exception.CustomerNotFoundException;
 import com.appcoder.springreadyapp.security.JwtTokenProviderService;
 import com.appcoder.springreadyapp.services.CustomerService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.hamcrest.CoreMatchers;
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +16,6 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.Arrays;
 import java.util.List;

@@ -101,9 +101,6 @@ public class CustomerServiceLayerTest {
         List<Customer> customerList = new ArrayList<>();
         customerList.add(customer);
 
-        // providing knowledge
-//        when(customerRepository.findAllByMobileNumber("01737186096")).thenReturn(customerList);
-
         List<Customer> fetchedCustomers = customerService.findCustomerByMobileNumber(customer.getMobileNumber());
         assertThat(fetchedCustomers.size()).isEqualTo(0);
     }

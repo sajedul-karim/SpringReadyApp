@@ -34,11 +34,13 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public boolean saveUpdateCustomer(Customer request) {
         Customer customer;
+
+        if(customerRepository.countAllByFirstName(request.getFirstName())>0){
+            log.error("First name already exists");
+            return false;
+        }
+
         if (request.getId() == null || request.getId() == 0) {
-            if(customerRepository.countAllByFirstName(request.getFirstName())>0){
-                log.error("First name already exists");
-                return false;
-            }
             customer = new Customer();
             customer.setFirstName(request.getFirstName());
             customer.setLastName(request.getLastName());
