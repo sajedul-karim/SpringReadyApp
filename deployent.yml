@@ -1,0 +1,45 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: springreadyapp
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: springreadyapp
+  template:
+    metadata:
+      labels:
+        app: springreadyapp
+    spec:
+      containers:
+        - name: springreadyapp
+          image: mesuk08/springreadyapp:0.7
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+#          readinessProbe:
+#            httpGet:
+#              path: /actuator/health
+#              port: 8080
+#            initialDelaySeconds: 5
+#          livenessProbe:
+#            httpGet:
+#              path: /actuator/health
+#              port: 8080
+#            initialDelaySeconds: 5
+      restartPolicy: Always
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: springreadyapp
+spec:
+  type: NodePort
+  ports:
+    - port: 8080
+      targetPort: 8080
+      protocol: TCP
+      nodePort: 31000
+  selector:
+    app: springreadyapp

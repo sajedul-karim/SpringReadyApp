@@ -61,7 +61,8 @@ public class AsyncProgrammingService implements IAsyncProgrammingService {
     @Override
     public boolean placeOrder(Long customerId, Long productId) throws ExecutionException, InterruptedException {
 
-        log.info("Request coming to placeOrder() method");
+        log.info("Request coming to placeOrder() method.");
+        log.info("Thread Name :"+Thread.currentThread().getName());
 
         CompletableFuture<Boolean> combinedFuture = loadCustomer(customerId)
                 .thenCombine(loadProduct(productId), (customer, product) -> {
@@ -77,6 +78,8 @@ public class AsyncProgrammingService implements IAsyncProgrammingService {
     public String getUserFeeds(String emailId) throws ExecutionException, InterruptedException {
 
         log.info("In method getUserFeeds() : START");
+        log.info("Thread Name :"+Thread.currentThread().getName());
+
 
         CompletableFuture<String> loadUsersFacebookFeedsFuture = loadUsersFacebookFeeds(emailId);
         CompletableFuture<String> loadUsersGitHubFeedsFuture = loadUsersGitHubFeeds(emailId);
@@ -108,6 +111,7 @@ public class AsyncProgrammingService implements IAsyncProgrammingService {
         return CompletableFuture.supplyAsync(() -> {
             try {
                 log.info("loadUsersFacebookFeeds() : START");
+                log.info("Thread Name :"+Thread.currentThread().getName());
                 TimeUnit.SECONDS.sleep(5);
                 log.info("loadUsersFacebookFeeds() : END");
             } catch (InterruptedException e) {
@@ -122,6 +126,7 @@ public class AsyncProgrammingService implements IAsyncProgrammingService {
         return CompletableFuture.supplyAsync(() -> {
             try {
                 log.info("loadUsersGitHubFeeds() : START");
+                log.info("Thread Name :"+Thread.currentThread().getName());
                 TimeUnit.SECONDS.sleep(5);
                 log.info("loadUsersGitHubFeeds() : END");
             } catch (InterruptedException e) {
@@ -136,6 +141,7 @@ public class AsyncProgrammingService implements IAsyncProgrammingService {
         return CompletableFuture.supplyAsync(() -> {
             try {
                 log.info("loadUsersMediumFeeds() : START");
+                log.info("Thread Name :"+Thread.currentThread().getName());
                 TimeUnit.SECONDS.sleep(5);
                 log.info("loadUsersMediumFeeds() : END");
             } catch (InterruptedException e) {
