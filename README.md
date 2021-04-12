@@ -31,3 +31,9 @@ https://medium.com/dev-genius/spring-boot-deep-dive-on-unit-testing-92bbdf549594
 
 * [Scaling spring app with NGINX server and docker-compose](
 https://mesukcse08.medium.com/scaling-spring-app-with-nginx-server-and-docker-compose-3fcad6257a36)
+
+* [Details implementation of java asynchronous programming using completable future](
+https://medium.com/dev-genius/details-implementation-of-java-asynchronous-programming-using-completable-future-949826bac6f3)
+
+* [The Factory Method Pattern and Its Implementation in JAVA](
+https://medium.com/dev-genius/the-factory-method-pattern-and-its-implementation-in-java-b51d307b8dd8)
